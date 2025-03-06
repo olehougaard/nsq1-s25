@@ -47,6 +47,7 @@ db.blogs.aggregate(
     ]
 )
 
+
 // All comments by user "endless"
 db.blogs.aggregate(
     [
@@ -103,3 +104,38 @@ db.people.aggregate(
         }
     ]
 )
+
+// How many happy customers in one day? With $project
+db.menu.aggregate([
+    {$lookup: {
+        localField: "food",
+        from: "people",
+        foreignField: "favoriteFood",
+        as: "happyCustomers"
+      }
+    },
+    {$project: {
+        day: 1,
+        happy: {$size: "$happyCustomers"}
+    }
+   }
+])
+
+// With $unwind and $group
+db.menu.aggregate([
+    {$lookup: {
+        localField: "food",
+        from: "people",
+        foreignField: "favoriteFood",
+        as: "happyCustomers"
+      }
+    },
+    {$unwind: {
+      path: "$happyCustomers",
+    }},
+    {$group: {
+        _id: "$day",
+        happy: {$count: {}}
+    }
+   }
+])
