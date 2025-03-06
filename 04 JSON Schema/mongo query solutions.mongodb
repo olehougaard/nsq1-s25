@@ -1,0 +1,45 @@
+//1. Show blogs
+db.blogs.find().limit(3)
+
+//2. Show blogs with no comments
+db.blogs.find({comments: []}).limit(3)
+
+//3. Which users have never commented?
+db.blogs.find({"user.numberOfComments": 0}).limit(3)
+
+//4. Which users have commented more than twice?
+db.blogs.find({"user.numberOfComments": {$gt: 2}}).limit(3)
+
+//5. Find blog posts by user "thecrowd"
+db.blogs.find({"user.username": "thecrowd"}).limit(3)
+
+//6.	How many blog posts has user "myattention" posted?
+db.blogs.find({"user.username": "myattention"}).size()
+
+//7.	Which blog posts are tagged with "field" and nothing else?
+db.blogs.find({tags: ["field"]}).limit(3)
+
+//8.	Which blog posts have the "Thames" tag?
+db.blogs.find({tags: "Thames"}).limit(3)
+
+//9.	Which blog posts have the "Thames" and the "surface" tag?
+db.blogs.find({tags: {$all: ["Thames", "surface"]}}).limit(3)
+
+//10.	Which blog posts have the "Thames" or the "surface" tag?
+db.blogs.find({tags: { $elemMatch: {$in: ["Thames", "surface"]}}}).limit(3)
+// Alternatively
+db.blogs.find({$or: [
+                {tags: "Thames"}, 
+                {tags: "surface"}]}
+        ).limit(3)
+
+//11.	Which blog posts have "twilight" commented on?
+db.blogs.find({"comments.user": "twilight"})
+
+//12. Which comments have "twilight" liked?
+db.blogs.find({"comments.likes": "twilight"},
+              {_id: 0, "comments": 1})
+
+//13.	Which blog posts contain "Martians" in the text?
+db.blogs.createIndex({text: "text"})
+db.blogs.find({$text: {$search: "Martians"}}).limit(3)

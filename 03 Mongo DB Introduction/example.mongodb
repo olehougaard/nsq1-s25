@@ -1,0 +1,117 @@
+db.tickets.insertMany(
+  [
+    {
+      date: "2020-03-03",
+      time: "19:30",
+      type: "Concert",
+      musicalGenre: "Classical",
+      performer: ["Anne Sofie Sloth Nilausen"],
+      seat: {room: "Lille sal"},
+      price: 55,
+      ticketHolder: {
+        name: "Kaylee Roderick",
+        address: {
+          street: "Frederiksgade 44",
+          zip: 8000,
+          town: "Aarhus C"
+        }
+      }
+    },
+    {
+      date: "2020-03-03",
+      time: "19:30",
+      type: "Concert",
+      musicalGenre: "Classical",
+      performer: ["Anne Sofie Sloth Nilausen"],
+      seat: {room: "Lille sal"},
+      price: 55,
+      ticketHolder: {
+        name: "Trevor Jeffery",
+        address: {
+          street: "Kattesund 12",
+          zip: 8700,
+          town: "Horsens"
+        }
+      }
+    },
+    {
+      date: "2020-03-04",
+      time: "19:00",
+      type: "Lecture",
+      title: "Skattesagen",
+      performer: ["Morten Spiegelhauer"],
+      seat: {room: "Lille sal", row: 11, number: 18},
+      price: 150,
+      ticketHolder: {
+        name: "Edna Durant",
+        address: {
+          street: "Lovenornsgade 18",
+          zip: 8700,
+          town: "Horsens"
+        }
+      }
+    },
+    {
+      date: "2020-03-04",
+      time: "19:00",
+      type: "Lecture",
+      title: "Skattesagen",
+      performer: ["Morten Spiegelhauer"],
+      seat: {room: "Lille sal", row: 3, number: 8},
+      price: 230,
+      ticketHolder: {
+        name: "Damian Beringer",
+        address: "Lovenornsgade 18, 8700 Horsens"
+      }
+    },
+    {
+      date: "2020-03-04",
+      time: "19:00",
+      type: "Lecture",
+      title: "Skattesagen",
+      performer: ["Morten Spiegelhauer"],
+      seat: {room: "Lille sal", row: 6, number: 18},
+      price: 190,
+      ticketHolder: {
+        name: "Starr Sergeant",
+        address: {
+          street: "Gronnegade 10",
+          zip: 8000,
+          town: "Aarhus C"
+        }
+      }
+    },
+  ]
+)
+
+//Examples:
+//Find all
+db.tickets.find()
+db.tickets.find().limit(2)
+
+//Find specific values
+db.tickets.find({price: 55})
+
+//Find more values
+db.tickets.find({price: 55, musicalGenre: "Classical"})
+
+//Beware of this pitfall: This looks for the exact object {seat: {room: "Lille Sal"}}, which is almost certainly not what you wanted.
+db.tickets.find({seat: {room: "Lille sal"}})
+
+//Instead, use the specific key
+db.tickets.find({"seat.room": "Lille sal"})
+
+//It doesn't have to be key/value, it can also be key/operator ($gt stands for greater than, $lt for less than)
+db.tickets.find({price: {$gt: 100}})
+
+//You can also have a top-level operator like $and, $or, etc.
+db.tickets.find({$or: [{price: {$gt: 100}}, {musicalGenre: "Classical"}]})
+
+//Let's add a performer to an event to see how array queries work
+db.tickets.update({_id: ObjectId("67b6e41ea7486a2948a29c20")}, {$push: {performer: "Donald Duck"}})
+
+//This asks for the exact array (that is, only the one performer)
+db.tickets.find({performer: ["Donald Duck"]})
+
+//This asks for the array to contain the performer
+db.tickets.find({performer: "Donald Duck"})

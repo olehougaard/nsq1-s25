@@ -1,0 +1,82 @@
+  db.tickets.insertMany([
+  {
+    time: ISODate("2020-03-03T19:30"),
+    type: "Concert",
+    musicalGenre: "Classical",
+    performer: ["Anne Sofie Sloth Nilausen"],
+    seat: {room: "Lille sal"},
+    price: NumberDecimal('55'),
+    ticketHolder: {
+      name: "Kaylee Roderick",
+      address: {
+        street: "Frederiksgade 44",
+        zip: 8000,
+        town: "Aarhus C"
+      }
+    }
+  },
+  {
+    time: ISODate("2020-03-03T19:30"),
+    type: "Concert",
+    musicalGenre: "Classical",
+    performer: ["Anne Sofie Sloth Nilausen"],
+    seat: {room: "Lille sal"},
+    price: NumberDecimal('55'),
+    ticketHolder: {
+      name: "Trevor Jeffery",
+      address: {
+        street: "Kattesund 12",
+        zip: 8700,
+        town: "Horsens"
+      }
+    }
+  },
+  {
+    time: ISODate("2020-03-04T19:00"),
+    type: "Lecture",
+    title: "Skattesagen",
+    performer: ["Morten Spiegelhauer"],
+    seat: {room: "Lille sal", row: NumberInt(11), number: NumberInt(18)},
+    price: NumberDecimal('150'),
+    ticketHolder: {
+      name: "Edna Durant",
+      address: {
+        street: "Løvenørnsgade 18",
+        zip: 8700,
+        town: "Horsens"
+      }
+    }
+  },
+  {
+    time: ISODate("2020-03-04T19:00"),
+    type: "Lecture",
+    title: "Skattesagen",
+    performer: ["Morten Spiegelhauer"],
+    seat: {room: "Lille sal", row: NumberInt(3), number: NumberInt(8)},
+    price: NumberDecimal('230'),
+    ticketHolder: {
+      name: "Damian Beringer",
+      address: {
+        street: "Løvenørnsgade 18", 
+        zip: 8700, 
+        town: "Horsens"
+      }
+    }
+  },
+  {
+    time: ISODate("2020-03-04T19:00"),
+    type: "Lecture",
+    title: "Skattesagen",
+    performer: ["Morten Spiegelhauer"],
+    seat: {room: "Lille sal", row: NumberInt(6), number: NumberInt(18)},
+    price: NumberDecimal('190'),
+    ticketHolder: {
+      name: "Starr Sergeant",
+      address: {
+        street: "Grønnegade 10",
+        zip: 8000,
+        town: "Aarhus C"
+      }
+    }
+  },
+])

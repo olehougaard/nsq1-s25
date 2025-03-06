@@ -1,0 +1,76 @@
+db.createCollection("tickets", {
+   validator: {
+      $jsonSchema: {
+         bsonType: "object",
+         required: [ "time", "type", "performer", "seat", "price", "ticketHolder" ],
+         properties: {
+            time: {
+               bsonType: "date",
+            },
+            type: {
+               enum: ["Concert", "Lecture"]
+            },
+            musicalGenre: {
+               bsonType: "string",
+               description: "use this for concerts"
+            },
+            performer: {
+               bsonType: "array",
+               minItems: 1,
+               maxItems: 1000,
+               uniqueItems: true,
+               items: { bsonType: "string" }
+            },
+            seat: {
+               bsonType: "object",
+               required: ["room"],
+               properties: {
+                  room: {
+                     enum: ["Store sal", "Lille sal", "Symfonisk sal", "Rytmisk sal"]
+                  },
+                  row: {
+                     bsonType: "int",
+                     minimum: 1,
+                     maximum: 48
+                  },
+                  seat: {
+                     bsonType: "int",
+                     minimum: 1,
+                     maximum: 78
+                  }
+               }
+            },
+            price: {
+               bsonType: "decimal",
+               description: "never double for monetary value"
+            },
+            ticketHolder: {
+               bsonType: "object",
+               required: [ "name", "address" ],
+               properties: {
+                  name: {
+                     bsonType: "string"
+                  },
+                  address: {
+                     bsonType: "object",
+                     required: [ "street", "town", "zip" ],
+                     properties: {
+                        street: {
+                           bsonType: "string",
+                        },
+                        zip: {
+                           bsonType: "int",
+                           minimum: 1000,
+                           maximum: 9999
+                        },
+                        town: {
+                           bsonType: "string",
+                        }
+                     }
+                  }
+                }
+             }
+         }
+      }
+   }
+ })
