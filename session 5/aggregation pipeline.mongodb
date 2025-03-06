@@ -1,0 +1,105 @@
+// All blog texts and number of words by user "the" ordered by number of words descending
+db.blogs.aggregate(
+    [
+        {$match: {"user.username": "the"}},
+        {$project: {text: 1, numberOfWords: 1, _id: 0}},
+        {$sort: {numberOfWords: -1}}
+    ]
+)
+
+// The average word count by user
+db.blogs.aggregate(
+    [
+        {
+            $group: {
+                _id: "$user.username",
+                averageWordCount: {$avg: "$numberOfWords"}
+            }
+        }
+    ]
+)
+
+// Average word count
+db.blogs.aggregate(
+    [
+        {
+            $group: {
+                _id: null,
+                averageWordCount: {$avg: "$numberOfWords"}
+            }
+        },
+        {
+            $project: {_id:0, averageWordCount: 1}
+        }
+    ]
+)
+
+// High average word count
+db.blogs.aggregate(
+    [
+        {
+            $group: {
+                _id: "$user.username",
+                averageWordCount: {$avg: "$numberOfWords"}
+            }
+        },
+        {$match: {"averageWordCount": {$gt: 1000}}}
+    ]
+)
+
+// All comments by user "endless"
+db.blogs.aggregate(
+    [
+        {$unwind: "$comments"},
+        {$replaceWith: "$comments"}, // Now we have a collection of comments
+        {$match: {user: "endless"}}
+    ]
+)
+
+// On which days can a person get their favourite food:
+db.people.aggregate(
+    [
+        {$lookup: 
+            {
+                from: "menu",
+                localField: "favoriteFood",
+                foreignField: "food",
+                as: "goodDays"
+            }
+        }
+    ]
+)
+
+// INNER JOIN
+db.people.aggregate(
+    [
+        {$lookup: 
+            {
+                from: "menu",
+                localField: "favoriteFood",
+                foreignField: "food",
+                as: "goodDays"
+            }
+        },
+        {$unwind: "$goodDays"}
+    ]
+)
+
+// LEFT JOIN
+db.people.aggregate(
+    [
+        {$lookup: 
+            {
+                from: "menu",
+                localField: "favoriteFood",
+                foreignField: "food",
+                as: "goodDays"
+            }
+        },
+        {$unwind: {
+            path: "$goodDays",
+            preserveNullAndEmptyArrays: true
+            }
+        }
+    ]
+)

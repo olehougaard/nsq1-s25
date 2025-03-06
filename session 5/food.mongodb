@@ -1,0 +1,32 @@
+db.menu.insertMany([
+  { day: 'Monday',
+    food: 'Pizza'
+  },
+  { day: 'Tuesday',
+    food: 'Hamburger'
+  },
+  { day: 'Wednesday',
+    food: 'Chicken'
+  },
+  { day: 'Thursday',
+    food: 'Pasta'
+  },
+  { day: 'Friday',
+    food: 'Tacos'
+  },
+])
+
+db.people.insertMany([
+  { name: 'Alice',
+    age: 21,
+	favoriteFood: 'Hamburger' },
+  { name: 'Bill',
+    age: 24,
+	favoriteFood: 'Pizza' },
+  { name: 'Carl',
+    age: 23,
+	  favoriteFood: 'Beer' },
+  { name: 'Dina',
+    age: 19,
+	favoriteFood: 'Hamburger' }
+])
