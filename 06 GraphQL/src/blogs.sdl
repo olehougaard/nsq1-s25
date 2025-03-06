@@ -1,0 +1,41 @@
+type Comment {
+    text: String!,
+    user: String!,
+    likes: [String!]!
+}
+
+type User {
+    username: String!,
+    numberOfComments: Int!
+}
+
+type Blog {
+    _id: ID!,
+    text: String!,
+    user: User!,
+    numberOfWords: Int,
+    tags: [String!],
+    numberOfComments: Int,
+    comments: [Comment!]!
+}
+
+type Query {
+  blogs: [Blog!]!,
+  comments(blog_id: ID!): [Comment!]!
+}
+
+input BlogInput {
+    text: String!,
+    username: String!,
+    tags: [String!]
+}
+
+input CommentInput {
+    text: String!,
+    user: String!,
+}
+
+type Mutation {
+  createBlog(blog: BlogInput!): Blog,
+  addComment(blogId: ID!, comment: CommentInput!): Comment
+}
