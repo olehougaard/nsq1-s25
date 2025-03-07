@@ -20,17 +20,14 @@ async function runSession(callback) {
         return await callback(db, session)
     } catch (e) {
         console.log(e.stack)
+        throw e
     } finally {
         session.endSession()
     }
 }
 
-async function runBlogs(callback) {
-    return runSession(db => callback(db.collection('blogs')))
-}
-
 export async function blog() {
-    return runBlogs(blogs => blogs.find().toArray())
+    return runSession(db => db.collection('blogs').find().toArray())
 }
 
 async function commentsForBlog(blogs, _id) {
@@ -44,11 +41,11 @@ async function commentsForBlog(blogs, _id) {
 }
 
 export async function blogComment(parent) {
-    return runBlogs(blogs => commentsForBlog(blogs, parent._id))
+    return runSession(db => commentsForBlog(db.collection("blogs"), parent._id))
 }
 
 export async function comment(_, args) {
-    return runBlogs(blogs => commentsForBlog(blogs, new ObjectId(args.blog_id)))
+    return runSession(db => commentsForBlog(db.collection("blogs"), new ObjectId(args.blog_id)))
 }
 
 export async function createBlog(_, args) {
