@@ -1,0 +1,27 @@
+{
+  "name": "nsq1-s22",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node graphqlserver.js"
+  },
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/olehougaard/nsq1-s22.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/olehougaard/nsq1-s22/issues"
+  },
+  "homepage": "https://github.com/olehougaard/nsq1-s22#readme",
+  "dependencies": {
+    "@apollo/server": "^4.12.0",
+    "@neo4j/graphql": "^5.12.1",
+    "graphql": "^16.10.0",
+    "neo4j-driver": "^5.28.1"
+  }
+}
